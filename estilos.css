@@ -1,81 +1,53 @@
-// script.js
-
-const ramos = [
-  { id: "ICSE", nombre: "ICSE", requisitos: [] },
-  { id: "IPC", nombre: "IPC", requisitos: [] },
-  { id: "FIL", nombre: "FIL", requisitos: [] },
-  { id: "PROY1", nombre: "PROY 1", requisitos: [] },
-  { id: "PROY2", nombre: "PROY 2", requisitos: [] },
-  { id: "DIB", nombre: "DIB", requisitos: [] },
-  { id: "MAT", nombre: "MAT", requisitos: [] },
-
-  { id: "A1", nombre: "A1", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-  { id: "ITE", nombre: "ITE", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-  { id: "ITC", nombre: "ITC", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-  { id: "IAC", nombre: "IAC", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-  { id: "SRG", nombre: "SRG", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-  { id: "FAA", nombre: "FAA", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-  { id: "MAT2", nombre: "MAT2", requisitos: ["ICSE","IPC","FIL","PROY1","PROY2","DIB","MAT"] },
-
-  { id: "A2", nombre: "A2", requisitos: ["A1","SRG","ITC"] },
-  { id: "E1", nombre: "E1", requisitos: ["ITC","ITE","MAT2"] },
-  { id: "C1", nombre: "C1", requisitos: ["ITC","ITE","MAT2"] },
-  { id: "H1", nombre: "H1", requisitos: ["IAC"] },
-  { id: "RA", nombre: "RA", requisitos: ["SRG"] },
-  { id: "I1", nombre: "I1", requisitos: ["FAA","ITC","MAT2"] },
-  { id: "M1", nombre: "M1", requisitos: ["SRG"] },
-
-  { id: "A3", nombre: "A3", requisitos: ["A2","C1","E1","RA","IAC","I1"] },
-  { id: "E2", nombre: "E2", requisitos: ["E1","C1","A1","SRG"] },
-  { id: "C2", nombre: "C2", requisitos: ["C1","A1","SRG"] },
-  { id: "H2", nombre: "H2", requisitos: ["H1","A1","SRG"] },
-  { id: "MP", nombre: "MP", requisitos: ["A2","C1","E1","M1","RA","IAC","I1"] },
-  { id: "I2", nombre: "I2", requisitos: ["I1","C1","A1","SRG"] },
-  { id: "M2", nombre: "M2", requisitos: ["M1","A1","RA"] },
-
-  { id: "A4", nombre: "A4", requisitos: ["IAC","ITC","FAA","MAT2","A3","M2","MP","E1","I2","C2","H1"] },
-  { id: "E3", nombre: "E3", requisitos: ["E2","IAC","ITC","ITE","FAA","MAT2","A2","M1","RA"] },
-  { id: "C3", nombre: "C3", requisitos: ["C2","IAC","ITC","ITE","FAA","MAT2","A2","M1","RA"] },
-  { id: "H3", nombre: "H3", requisitos: ["H2","IAC","ITC","ITE","FAA","MAT2","A2","M1","RA"] },
-  { id: "PU", nombre: "PU", requisitos: ["H2","IAC","ITC","ITE","FAA","MAT2","A3","M1","RA","H1","E1","I1"] },
-  { id: "I3", nombre: "I3", requisitos: ["I2","IAC","ITC","ITE","FAA","MAT2","A2","M1","RA","C2"] },
-  { id: "T", nombre: "T", requisitos: ["IAC","ITC","ITE","FAA","MAT2","A3","M2","MP","H1","E1","I1","C1"] },
-
-  { id: "PUR", nombre: "PUR", requisitos: ["A4","H1","C1","E1","I1","T","C3","E3","I3","H3"] },
-  { id: "PA", nombre: "PA", requisitos: ["PUR"] },
-  { id: "DYLO", nombre: "DYLO", requisitos: ["A4","H1","C1","E1","I1","C2","I2","C3","E2","I3","H2"] },
-  { id: "PPA", nombre: "PPA", requisitos: ["A3","E2","C2","H2","MP","I2","M2"] },
-  { id: "MO", nombre: "MO", requisitos: ["IAC","ITC","ITE","FAA","MAT2","A3","M1","RA","H1","E1"] }
-];
-
-const mallaDiv = document.getElementById("malla");
-
-ramos.forEach(ramo => {
-  const div = document.createElement("div");
-  div.classList.add("ramo", "bloqueado");
-  div.id = ramo.id;
-  div.innerText = ramo.nombre;
-  mallaDiv.appendChild(div);
-});
-
-function actualizarEstado() {
-  ramos.forEach(ramo => {
-    const requisitosAprobados = ramo.requisitos.every(id => document.getElementById(id).classList.contains("aprobado"));
-    const div = document.getElementById(ramo.id);
-    if (ramo.requisitos.length === 0 || requisitosAprobados) {
-      div.classList.remove("bloqueado");
-    } else {
-      div.classList.add("bloqueado");
-    }
-  });
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff0f5;
+  color: #333;
+  margin: 0;
+  padding: 20px;
 }
 
-mallaDiv.addEventListener("click", e => {
-  if (e.target.classList.contains("ramo") && !e.target.classList.contains("bloqueado")) {
-    e.target.classList.toggle("aprobado");
-    actualizarEstado();
-  }
-});
+h1 {
+  text-align: center;
+  color: #d63384;
+}
 
-actualizarEstado();
+#malla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.ramo {
+  background-color: #ffb6c1;
+  border: 2px solid #d63384;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  opacity: 0.6;
+  user-select: none;
+}
+
+.ramo:hover {
+  box-shadow: 0 0 10px #d63384;
+}
+
+.ramo.aprobado {
+  background-color: #e83e8c;
+  color: #fff;
+  opacity: 1;
+  font-weight: bold;
+  text-decoration: line-through;
+}
+
+.ramo.bloqueado {
+  pointer-events: none;
+  background-color: #f8d7da;
+  color: #6c757d;
+  opacity: 0.4;
+}
 
